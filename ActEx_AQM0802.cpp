@@ -13,7 +13,7 @@
 // Include Files //////////////////////////////////////////////////////////////
 
 #include <TWELITE>
-#include "AQM0802/AQM0802.h"    // AQM0802 library for TWELITE
+#include "AQM0802/AQM0802.h"    // AQM0802 local library for TWELITE
 
 
 // Macro Definitions //////////////////////////////////////////////////////////
@@ -60,6 +60,6 @@ void setup() {
 void loop() {
     if (Timer0.available()) {
         // Increment the count number and print it
-        display.printf("ElpdTime%05d[s]\n", ++count);
+        display.printf("%05d[s]\n", ++count);
     }
 }
