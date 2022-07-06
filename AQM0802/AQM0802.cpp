@@ -27,8 +27,10 @@
 // Public Methods /////////////////////////////////////////////////////////////
 
 AQM0802::AQM0802()
-    : i2c_address(0x3E), cursor{0, 0}
+    : SUPER(), i2c_address(0x3E), cursor{0, 0}
 {
+    // initialize the stream
+    SUPER::pvOutputContext = (void*)this; // pass the mwx::strem of instance pointer (used at vOutPut())
 }
 
 void AQM0802::begin()
@@ -146,6 +148,10 @@ void AQM0802::moveVVRAMCursorForward()
 
 void AQM0802::putVVRAM(const char c)
 {
+    if (c == '\r') {
+        // If the character is a carriage return, skip it
+        return;
+    }
     if (c == '\n') {
         // If the character is a newline, simply move the cursor to the tail of the line
         moveVVRAMCursorTo(this->cursor.row, AQM0802_COLUMNS - 1);

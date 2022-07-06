@@ -41,9 +41,12 @@ void setup() {
     // Setup the display
     display.begin();
     // Print initial messages
-    display.printf("ActExtra AQM0802\n");
+    // display.printf("ActExtra AQM0802\n");
+    // delay(2000);
+    // display.printf("-Start!-\n");
+    display << "ActExtra AQM0802" << mwx::crlf;
     delay(2000);
-    display.printf("-Start!-\n");
+    display << "-Start!-" << mwx::crlf;
     // Initialize the count number
     count = 0;
     // 1Hz Timer
@@ -60,6 +63,7 @@ void setup() {
 void loop() {
     if (Timer0.available()) {
         // Increment the count number and print it
-        display.printf("%05d[s]\n", ++count);
+        //display.printf("%05d[s]\n", ++count);
+        display << format("%05d[s]", ++count) << mwx::crlf;     // Not working
     }
 }

@@ -14,6 +14,8 @@
 
 // Include Files //////////////////////////////////////////////////////////////
 
+#include <TWELITE>
+
 #include <stdarg.h>             // For printf
 #include <stdint.h>             // For uint8_t
 
@@ -45,7 +47,9 @@ struct st7032_cursor_s {
 
 // Class Definition ///////////////////////////////////////////////////////////
 
-class AQM0802 {
+class AQM0802 : public mwx::stream<AQM0802> {
+    using SUPER = mwx::stream<AQM0802>;
+
 private:
     /**
      * @brief   I2C slave address
@@ -121,6 +125,15 @@ public:
      * @retval  -1  Error (out of range)
      */
     int move(const int y, const int x);
+
+public:
+    inline size_t write(int n) {
+        this->putc(n);
+        return 1;
+    }
+	static void vOutput(char out, void* vp) {
+        reinterpret_cast<AQM0802*>(vp)->putc(out);
+    }
 
 private:
     /**
