@@ -216,3 +216,8 @@ zsdoc/data
 !/tests/_output/.gitkeep
 
 # End of https://www.toptal.com/developers/gitignore/api/c++,macos,windows,linux,zsh,emacs,visualstudiocode
+_mwx_version.c
+*.bin
+*.log
+*.map
+*.elf
