@@ -13,7 +13,7 @@
 // Include Files //////////////////////////////////////////////////////////////
 
 #include <TWELITE>
-#include "AQM0802/AQM0802.h"    // AQM0802 local library for TWELITE
+#include "AQM0802/AQM0802.hpp"    // AQM0802 local library for TWELITE
 
 
 // Macro Definitions //////////////////////////////////////////////////////////

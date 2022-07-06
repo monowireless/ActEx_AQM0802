@@ -12,7 +12,7 @@
 
 // Include Files //////////////////////////////////////////////////////////////
 
-#include "AQM0802.h"
+#include "AQM0802.hpp"
 
 #include <TWELITE>
 #include <string.h>

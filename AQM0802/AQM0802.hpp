@@ -1,6 +1,6 @@
 // -*- coding:utf-8-unix -*-
 /**
- * @file   AQM0802.h
+ * @file   AQM0802.hpp
  * @author alnasl
  * @date   Thu Jun 16 14:45:57 2022
  *
