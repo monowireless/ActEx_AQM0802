@@ -1,12 +1,12 @@
 # ActEx_AQM0802
 
-## About
+## はじめに / About
 
 Sitronix社のI2C接続LCDコントローラ ST7032 を実装したLCDモジュール AQM0802 を使用するサンプルです。
 
 Act sample using AQM0802 LCD modules built with the Sitronix ST7032 I2C controller.
 
-## Connection
+## 接続方法 / Connection
 
 ![Wiring AQM0802](.images/actex_aqm0802_wiring_sm.png)
 
@@ -14,7 +14,31 @@ AQM0802の電源およびリセットピンを接続したうえで、I2C SCLと
 
 Connect powerlines and the reset pin on the AQM0802, then connect I2C SCL and I2C SDA to the TWELITE.
 
-## ActEx_AQM0802
+## 動作環境 / Environment
+
+以下の環境でActの動作を確認しました。
+
+- ソフトウェア
+  - [MWSDK](https://mono-wireless.com/jp/products/stage/index.html) 2022年7月版 (macOS Monterey)
+- ハードウェア
+  - 自社製品
+    - [TWELITE DIP BLUE (TWE-L-DI-W)](https://mono-wireless.com/jp/products/TWE-Lite-DIP/index.html)
+    - [TWELITE R2 (MW-LITER2)](https://mono-wireless.com/jp/products/TWE-LITE-R/index.html)
+  - 他社製品
+    - [Ｉ２Ｃ接続小型ＬＣＤモジュール (AE-AQM0802)](https://akizukidenshi.com/catalog/g/gM-09109/)
+
+This Act has been tested in the following environment:
+
+- Software
+  - [MWSDK](https://mono-wireless.com/jp/products/stage/index.html) 2022 July (macOS Monterey)
+- Hardware
+  - Own products
+    - [TWELITE DIP BLUE (TWE-L-DI-W)](https://mono-wireless.com/jp/products/TWE-Lite-DIP/index.html)
+    - [TWELITE R2 (MW-LITER2)](https://mono-wireless.com/jp/products/TWE-LITE-R/index.html)
+  - Third-party products
+    - [Ｉ２Ｃ接続小型ＬＣＤモジュール (AE-AQM0802)](https://akizukidenshi.com/catalog/g/gM-09109/)
+
+## サンプルアクト / Act sample
 
 `ActEx_AQM0802`は、このActに同梱しているMWX向けライブラリ `AQM0802` を使用したサンプルです。
 
@@ -28,9 +52,9 @@ In the `setup()`, show initial messages and initialize the `Timer0`.
 In the `loop()`, periodically increment the count value with `Timer0` and show elapsed time seconds.
 `AQM0802::printf()` can process newlines automatically.
 
-## AQM0802 Library
+## ライブラリ / Library
 
-### Initialization
+### 初期化 / Initialization
 
 ```C++:ActEx_AQM0802.cpp
     // Setup the display
@@ -41,7 +65,7 @@ In the `loop()`, periodically increment the count value with `Timer0` and show e
 
 Create a global instance of the `AQM0802` class, then call `AQM0802::begin()` in the `setup()`.
 
-### Clear the display
+### 消去 / Clearing
 
 ```C++
     // Clear the display
@@ -52,7 +76,7 @@ Create a global instance of the `AQM0802` class, then call `AQM0802::begin()` in
 
 Use `AQM0802::clear()` to clear contents on the display.
 
-### Print strings
+### 文字列の表示 / Print strings
 
 ```C++:ActEx_AQM0802.cpp
         // Increment the count number and print it
@@ -70,7 +94,7 @@ You can use this method like the `printf()` in the C standard library, but maxim
 #define AQM0802_PRINTF_MAX 64
 ```
 
-### Put a character
+### 文字の表示 / Put a character
 
 ```C++
     // Print 'a'
@@ -83,7 +107,7 @@ C言語標準ライブラリの`putc()`あるいは`putchar()`と同様に使え
 Use `AQM0802::putc()` to put a character.
 You can use this method like the `putc()` or `putchar()` in the C standard library.
 
-### Move the cursor
+### カーソルの移動 / Move the cursor
 
 ```C++
     // Move the cursor to the y:1,x:3
@@ -96,5 +120,5 @@ ncursesライブラリの`move()`と同様に使えます。
 Use `AQM0802::move()` to move the cursor position for `AQM0802::printf()` or `AQM0802::putc()`.
 You can use this method like the `move()` in the ncurses library.
 
-## License
-MW-SLA-1 (MONO WIRELESS SOFTWARE LICENSE AGREEMENT)
+## ライセンス / License
+MW-OSSLA-1 (MONO WIRELESS OPEN SOURCE SOFTWARE LICENSE AGREEMENT)
