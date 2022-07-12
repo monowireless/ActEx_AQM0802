@@ -7,7 +7,7 @@
  * @brief  Act driver for AQM0802 LCD modules built with the Sitronix ST7032 LCD controller
  *
  * Copyright (C) 2022 Mono Wireless Inc. All Rights Reserved.
- * Released under MW-SLA-*J,*E (MONO WIRELESS SOFTWARE LICENSE AGREEMENT).
+ * Released under MW-OSSLA-*J,*E (MONO WIRELESS OPEN SOURCE SOFTWARE LICENSE AGREEMENT).
  */
 
 #pragma once
