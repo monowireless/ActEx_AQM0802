@@ -23,11 +23,11 @@
 // Macro Definitions //////////////////////////////////////////////////////////
 
 /// Display width
-#define AQM0802_COLUMNS 8
+#define ST7032_MAX_COLUMNS 16
 /// Display height
-#define AQM0802_ROWS 2
+#define ST7032_MAX_ROWS 2
 /// Maximum length of printf() strings
-#define AQM0802_PRINTF_MAX 64
+#define ST7032_PRINTF_MAX 64
 
 
 // Type Definitions ///////////////////////////////////////////////////////////
@@ -36,6 +36,12 @@
 enum st7032_ctrl_byte_e {
     ST7032_INSTRUCTION = 0x00,
     ST7032_DATA = 0x40
+};
+
+// Module type
+enum st7032_module_type_e {
+    TYPE_AQM0802,
+    TYPE_AQM1602
 };
 
 /// Cursor structure
@@ -58,11 +64,14 @@ private:
     /**
      * @brief   Virtual VRAM
      */
-    char vvram[AQM0802_ROWS][AQM0802_COLUMNS];
+    char vvram[ST7032_MAX_ROWS][ST7032_MAX_COLUMNS];
     /**
      * @brief   Current cursor positions (row/col)
      */
     st7032_cursor_s cursor;
+
+    uint8_t rows;
+    uint8_t columns;
 
 public:
     /**
@@ -82,10 +91,10 @@ public:
      * @fn      begin
      * @brief   Setup the display
      *
-     * @param   none
+     * @param   type      Module type (TYPE_AQM0802 or TYPE_AQM1602)
      * @return  none
      */
-    void begin();
+    void begin(const st7032_module_type_e type = TYPE_AQM0802);
 
     /**
      * @fn      clear
@@ -169,10 +178,10 @@ private:
      * @fn      initializeDisplay
      * @brief   Initialize the display
      *
-     * @param   none
+     * @param   type      Module type (TYPE_AQM0802 or TYPE_AQM1602)
      * @return  none
      */
-    void initializeDisplay();
+    void initializeDisplay(const st7032_module_type_e type = TYPE_AQM0802);
 
     /**
      * @fn      updateDisplayWithVVRAM

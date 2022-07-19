@@ -27,6 +27,8 @@
 AQM0802 display;                // AQM0802 Display object
 uint16_t count;                 // Count number (Maximum: 5 digits)
 bool use_mwx_stream;            // Using mwx::stream or not
+st7032_module_type_e type;      // Using AQM0802 or AQM1602
+
 
 // Setup and Loop Procedure ///////////////////////////////////////////////////
 
@@ -38,8 +40,24 @@ bool use_mwx_stream;            // Using mwx::stream or not
  * @return  none
  */
 void setup() {
+    // Select module type
+    type = TYPE_AQM0802;
+    //type = TYPE_AQM1602;
+    switch (type) {
+    case TYPE_AQM0802: {
+        Serial.printfmt("ActEx_AQM0802: Using AQM0802\n");
+        break;
+    }
+    case TYPE_AQM1602: {
+        Serial.printfmt("ActEx_AQM0802: Using AQM1602\n");
+        break;
+    }
+    default:
+        break;
+    }
+
     // Setup the display
-    display.begin();
+    display.begin(type);
 
     // Select printing style
     use_mwx_stream = false;
@@ -50,16 +68,48 @@ void setup() {
     }
 
     // Print initial messages
-    if (use_mwx_stream) {
-        display << "ActExtra AQM0802" << mwx::crlf;     // Cpp-style
-    } else {
-        display.printf("ActExtra AQM0802\n");           // C-style
+    switch (type) {
+    case TYPE_AQM0802: {
+        if (use_mwx_stream) {
+            display << "ActExtra AQM0802" << mwx::crlf;     // Cpp-style
+        } else {
+            display.printf("ActExtra AQM0802\n");           // C-style
+        }
+        break;
     }
+    case TYPE_AQM1602: {
+        if (use_mwx_stream) {
+            display << "ActExtra AQM1602" << mwx::crlf;     // Cpp-style
+        } else {
+            display.printf("ActExtra AQM1602\n");           // C-style
+        }
+        break;
+    }
+    default:
+        break;
+    }
+
     delay(2000);
-    if (use_mwx_stream) {
-        display << "-Start!-" << mwx::crlf;     // Cpp-style
-    } else {
-        display.printf("-Start!-\n");           // C-style
+
+    switch (type) {
+    case TYPE_AQM0802: {
+        if (use_mwx_stream) {
+            display << "-Start!-" << mwx::crlf;     // Cpp-style
+        } else {
+            display.printf("-Start!-\n");           // C-style
+        }
+        break;
+    }
+    case TYPE_AQM1602: {
+        if (use_mwx_stream) {
+            display << "    -Start!-" << mwx::crlf;     // Cpp-style
+        } else {
+            display.printf("    -Start!-\n");           // C-style
+        }
+        break;
+    }
+    default:
+        break;
     }
 
     // Initialize the count number
@@ -79,10 +129,25 @@ void setup() {
 void loop() {
     if (Timer0.available()) {
         // Increment the count number and print it
-        if (use_mwx_stream) {
-            display << format("%05d[s]", ++count) << mwx::crlf; // Cpp-style
-        } else {
-            display.printf("%05d[s]\n", ++count);               // C-style
+        switch (type) {
+        case TYPE_AQM0802: {
+            if (use_mwx_stream) {
+                display << format("%05d[s]", ++count) << mwx::crlf; // Cpp-style
+            } else {
+                display.printf("%05d[s]\n", ++count);               // C-style
+            }
+            break;
+        }
+        case TYPE_AQM1602: {
+            if (use_mwx_stream) {
+                display << format("Elapsed:%05d[s]", ++count) << mwx::crlf; // Cpp-style
+            } else {
+                display.printf("Elapsed:%05d[s]\n", ++count);               // C-style
+            }
+            break;
+        }
+        default:
+            break;
         }
     }
 }
