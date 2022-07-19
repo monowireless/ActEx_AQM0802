@@ -57,7 +57,6 @@ In the `loop()`, periodically increment the count value with `Timer0` and show e
 ### 初期化 / Initialization
 
 ```C++:ActEx_AQM0802.cpp
-    // Setup the display
     display.begin();
 ```
 
@@ -68,7 +67,6 @@ Create a global instance of the `AQM0802` class, then call `AQM0802::begin()` in
 ### 消去 / Clearing
 
 ```C++
-    // Clear the display
     display.clear();
 ```
 
@@ -78,8 +76,8 @@ Use `AQM0802::clear()` to clear contents on the display.
 
 ### 文字列の表示 / Print strings
 
+#### C言語スタイル / C-style
 ```C++:ActEx_AQM0802.cpp
-        // Increment the count number and print it
         display.printf("%05d[s]\n", ++count);
 ```
 
@@ -90,14 +88,23 @@ Use `AQM0802::printf()` to print formatted strings.
 You can use this method like the `printf()` in the C standard library, but maximum count of the string is limited to the `AQM0802_PRINTF_MAX`. Default value is 64.
 
 ```C++:AQM0802/AQM0802.hpp
-/// Maximum length of printf() strings
 #define AQM0802_PRINTF_MAX 64
 ```
+
+#### C++スタイル / Cpp-style
+```C++:ActEx_AQM0802.cpp
+        display << format("%05d[s]", ++count) << mwx::crlf; // Cpp-style
+```
+
+書式文字列を表示する方法として、[mwx::stream](https://mwx.twelite.info/api-reference/classes/twe-stream)を使った方法もあります。
+C++標準ライブラリの`ostream`と同様に使えます。
+
+Alternatively, use [mwx::stream](https://mwx.twelite.info/api-reference/classes/twe-stream) to print formatted strings.
+You can use this interface like the `ostream` in the C++ standard library.
 
 ### 文字の表示 / Put a character
 
 ```C++
-    // Print 'a'
     display.putc('a');
 ```
 
@@ -110,8 +117,7 @@ You can use this method like the `putc()` or `putchar()` in the C standard libra
 ### カーソルの移動 / Move the cursor
 
 ```C++
-    // Move the cursor to the y:1,x:3
-    display.move(1, 3);
+    display.move(1, 3);    // Move the cursor to the y:1,x:3
 ```
 
 `AQM0802::printf()` または `AQM0802::putc()`の表示開始位置を変更するには、`AQM0802::move()`を呼びます。
