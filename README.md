@@ -2,17 +2,17 @@
 
 ## はじめに / About
 
-Sitronix社のI2C接続LCDコントローラ ST7032 を実装したLCDモジュール AQM0802 を使用するサンプルです。
+Sitronix社のI2C接続LCDコントローラ ST7032 を実装したLCDモジュール AQM0802 または AQM1602 を使用するサンプルです。
 
-Act sample using AQM0802 LCD modules built with the Sitronix ST7032 I2C controller.
+Act sample using AQM0802 or AQM1602 LCD modules built with the Sitronix ST7032 I2C controller.
 
 ## 接続方法 / Connection
 
 ![Wiring AQM0802](.images/actex_aqm0802_wiring_sm.png)
 
-AQM0802の電源およびリセットピンを接続したうえで、I2C SCLとI2C SDAをTWELITEに接続します。
+電源およびリセットピンを接続したうえで、I2C SCLとI2C SDAをTWELITEに接続します。
 
-Connect powerlines and the reset pin on the AQM0802, then connect I2C SCL and I2C SDA to the TWELITE.
+Connect powerlines and the reset pin, then connect I2C SCL and I2C SDA to the TWELITE.
 
 ## 動作環境 / Environment
 
@@ -26,6 +26,7 @@ Connect powerlines and the reset pin on the AQM0802, then connect I2C SCL and I2
     - [TWELITE R2 (MW-LITER2)](https://mono-wireless.com/jp/products/TWE-LITE-R/index.html)
   - 他社製品
     - [Ｉ２Ｃ接続小型ＬＣＤモジュール (AE-AQM0802)](https://akizukidenshi.com/catalog/g/gM-09109/)
+    - [Ｉ２Ｃ接続小型ＬＣＤモジュール (AE-AQM1602A)](https://akizukidenshi.com/catalog/g/gK-08896/)
 
 This Act has been tested in the following environment:
 
@@ -37,6 +38,7 @@ This Act has been tested in the following environment:
     - [TWELITE R2 (MW-LITER2)](https://mono-wireless.com/jp/products/TWE-LITE-R/index.html)
   - Third-party products
     - [Ｉ２Ｃ接続小型ＬＣＤモジュール (AE-AQM0802)](https://akizukidenshi.com/catalog/g/gM-09109/)
+    - [Ｉ２Ｃ接続小型ＬＣＤモジュール (AE-AQM1602A)](https://akizukidenshi.com/catalog/g/gK-08896/)
 
 ## サンプルアクト / Act sample
 
@@ -62,7 +64,11 @@ In the `loop()`, periodically increment the count value with `Timer0` and show e
 
 `AQM0802`クラスのインスタンスをグローバル空間に宣言し、`setup()`内で`AQM0802::begin()`を呼びます。
 
+※ AQM1602を使用する際は、引数に `TYPE_AQM1602` を渡してください。
+
 Create a global instance of the `AQM0802` class, then call `AQM0802::begin()` in the `setup()`.
+
+\* If AQM1602 is used, pass `TYPE_AQM1602` as the argument for the method.
 
 ### 消去 / Clearing
 
