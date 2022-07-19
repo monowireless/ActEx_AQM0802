@@ -26,7 +26,7 @@
 
 AQM0802 display;                // AQM0802 Display object
 uint16_t count;                 // Count number (Maximum: 5 digits)
-
+bool use_mwx_stream;            // Using mwx::stream or not
 
 // Setup and Loop Procedure ///////////////////////////////////////////////////
 
@@ -40,13 +40,32 @@ uint16_t count;                 // Count number (Maximum: 5 digits)
 void setup() {
     // Setup the display
     display.begin();
+
+    // Select printing style
+    use_mwx_stream = false;
+    if (use_mwx_stream) {
+        Serial << "ActEx_AQM0802: Using mwx::stream" << mwx::crlf;
+    } else {
+        Serial.printfmt("ActEx_AQM0802: Using printf\n");
+    }
+
     // Print initial messages
-    display.printf("ActExtra AQM0802\n");
+    if (use_mwx_stream) {
+        display << "ActExtra AQM0802" << mwx::crlf;     // Cpp-style
+    } else {
+        display.printf("ActExtra AQM0802\n");           // C-style
+    }
     delay(2000);
-    display.printf("-Start!-\n");
+    if (use_mwx_stream) {
+        display << "-Start!-" << mwx::crlf;     // Cpp-style
+    } else {
+        display.printf("-Start!-\n");           // C-style
+    }
+
     // Initialize the count number
     count = 0;
-    // 1Hz Timer
+
+    // Begin the Timer0 with 1Hz
     Timer0.begin(1);
 }
 
@@ -60,6 +79,10 @@ void setup() {
 void loop() {
     if (Timer0.available()) {
         // Increment the count number and print it
-        display.printf("%05d[s]\n", ++count);
+        if (use_mwx_stream) {
+            display << format("%05d[s]", ++count) << mwx::crlf; // Cpp-style
+        } else {
+            display.printf("%05d[s]\n", ++count);               // C-style
+        }
     }
 }

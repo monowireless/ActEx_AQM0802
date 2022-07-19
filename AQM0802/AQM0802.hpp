@@ -14,6 +14,8 @@
 
 // Include Files //////////////////////////////////////////////////////////////
 
+#include <TWELITE>
+
 #include <stdarg.h>             // For printf
 #include <stdint.h>             // For uint8_t
 
@@ -45,7 +47,9 @@ struct st7032_cursor_s {
 
 // Class Definition ///////////////////////////////////////////////////////////
 
-class AQM0802 {
+class AQM0802 : public mwx::stream<AQM0802> {
+    using SUPER = mwx::stream<AQM0802>;
+
 private:
     /**
      * @brief   I2C slave address
@@ -198,4 +202,11 @@ private:
      * @return  none
      */
     void moveDisplayCursorTo(const uint8_t row, const uint8_t col);
+
+public:
+    int available();
+    void flush();
+    int read();
+    size_t write(int n);
+    static void vOutput(char out, void* vp);
 };
