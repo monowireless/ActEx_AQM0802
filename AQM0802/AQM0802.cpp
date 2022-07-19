@@ -27,14 +27,15 @@
 // Public Methods /////////////////////////////////////////////////////////////
 
 AQM0802::AQM0802()
-    : SUPER(), i2c_address(0x3E), cursor{0, 0}
+    : SUPER(), i2c_address(0x3E), cursor{0, -1}
 {
-    // initialize the stream
+    // Initialize the stream
     SUPER::pvOutputContext = (void*)this; // pass the mwx::strem of instance pointer (used at vOutPut())
 }
 
 void AQM0802::begin()
 {
+    mwx::pnew(*this);           // Placement new: for calling the constructor manually
     this->i2c_address = 0x3E;
     this->clearVVRAM();
     Wire.begin(WIRE_CONF::WIRE_400KHZ, false);
@@ -222,4 +223,32 @@ void AQM0802::moveDisplayCursorTo(const uint8_t row, const uint8_t col)
     ddram_address |= (rounded_row % 2 == 0) ? 0x00 : 0x40;
     ddram_address |= rounded_col;
     this->writeDisplay(ST7032_INSTRUCTION, ddram_address);
+}
+
+
+int AQM0802::available()
+{
+    return 0;                   // No data to read
+}
+
+void AQM0802::flush()
+{
+    this->updateDisplayWithVVRAM();
+}
+
+int AQM0802::read()
+{
+    return -1;                  // No data to read
+}
+
+size_t AQM0802::write(int n) {
+    this->putc(n);
+    return 1;
+}
+
+void AQM0802::vOutput(char out, void* vp) {
+    AQM0802* p_display = reinterpret_cast<AQM0802*>(vp);
+    if (p_display != nullptr) {
+        p_display->write(out);
+    }
 }

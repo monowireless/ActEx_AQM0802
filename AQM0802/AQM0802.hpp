@@ -126,15 +126,6 @@ public:
      */
     int move(const int y, const int x);
 
-public:
-    inline size_t write(int n) {
-        this->putc(n);
-        return 1;
-    }
-	static void vOutput(char out, void* vp) {
-        reinterpret_cast<AQM0802*>(vp)->putc(out);
-    }
-
 private:
     /**
      * @fn      clearVVRAM
@@ -211,4 +202,11 @@ private:
      * @return  none
      */
     void moveDisplayCursorTo(const uint8_t row, const uint8_t col);
+
+public:
+    int available();
+    void flush();
+    int read();
+    size_t write(int n);
+    static void vOutput(char out, void* vp);
 };
