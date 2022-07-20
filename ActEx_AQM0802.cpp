@@ -4,7 +4,7 @@
  * @author alnasl
  * @date   Thu Jun 16 14:45:57 2022
  *
- * @brief  Act sample for using AQM0802 LCD modules built with the Sitronix ST7032 LCD controller
+ * @brief  Act sample for using AQM0802 / AQM1602 LCD modules built with the Sitronix ST7032 LCD controller
  *
  * Copyright (C) 2022 Mono Wireless Inc. All Rights Reserved.
  * Released under MW-OSSLA-*J,*E (MONO WIRELESS OPEN SOURCE SOFTWARE LICENSE AGREEMENT).
@@ -61,6 +61,7 @@ void setup() {
 
     // Select printing style
     use_mwx_stream = false;
+    //use_mwx_stream = true;
     if (use_mwx_stream) {
         Serial << "ActEx_AQM0802: Using mwx::stream" << mwx::crlf;
     } else {
@@ -132,17 +133,17 @@ void loop() {
         switch (type) {
         case TYPE_AQM0802: {
             if (use_mwx_stream) {
-                display << format("%05d[s]", ++count) << mwx::crlf; // Cpp-style
+                display << format("%5d[s]", ++count) << mwx::crlf; // Cpp-style
             } else {
-                display.printf("%05d[s]\n", ++count);               // C-style
+                display.printf("%5d[s]\n", ++count);               // C-style
             }
             break;
         }
         case TYPE_AQM1602: {
             if (use_mwx_stream) {
-                display << format("Elapsed:%05d[s]", ++count) << mwx::crlf; // Cpp-style
+                display << format("Elapsed:%5d[s]", ++count) << mwx::crlf; // Cpp-style
             } else {
-                display.printf("Elapsed:%05d[s]\n", ++count);               // C-style
+                display.printf("Elapsed:%5d[s]\n", ++count);               // C-style
             }
             break;
         }

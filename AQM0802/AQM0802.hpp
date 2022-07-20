@@ -4,7 +4,7 @@
  * @author alnasl
  * @date   Thu Jun 16 14:45:57 2022
  *
- * @brief  Act driver for AQM0802 LCD modules built with the Sitronix ST7032 LCD controller
+ * @brief  Act driver for AQM0802 / AQM1602 LCD modules built with the Sitronix ST7032 LCD controller
  *
  * Copyright (C) 2022 Mono Wireless Inc. All Rights Reserved.
  * Released under MW-OSSLA-*J,*E (MONO WIRELESS OPEN SOURCE SOFTWARE LICENSE AGREEMENT).
@@ -22,9 +22,9 @@
 
 // Macro Definitions //////////////////////////////////////////////////////////
 
-/// Display width
+/// Display maximum width
 #define ST7032_MAX_COLUMNS 16
-/// Display height
+/// Display maximum height
 #define ST7032_MAX_ROWS 2
 /// Maximum length of printf() strings
 #define ST7032_PRINTF_MAX 64
@@ -38,7 +38,7 @@ enum st7032_ctrl_byte_e {
     ST7032_DATA = 0x40
 };
 
-// Module type
+// Module type (AQM0802 / AQM1602)
 enum st7032_module_type_e {
     TYPE_AQM0802,
     TYPE_AQM1602
@@ -54,6 +54,7 @@ struct st7032_cursor_s {
 // Class Definition ///////////////////////////////////////////////////////////
 
 class AQM0802 : public mwx::stream<AQM0802> {
+    /// SUPER: for using mwx::stream
     using SUPER = mwx::stream<AQM0802>;
 
 private:
@@ -69,8 +70,13 @@ private:
      * @brief   Current cursor positions (row/col)
      */
     st7032_cursor_s cursor;
-
+    /**
+     * @brief   Number of display rows (height)
+     */
     uint8_t rows;
+    /**
+     * @brief   Number of display columns (width)
+     */
     uint8_t columns;
 
 public:
@@ -213,9 +219,55 @@ private:
     void moveDisplayCursorTo(const uint8_t row, const uint8_t col);
 
 public:
+    /**
+     * @fn      available
+     * @brief   Check for input
+     * @see     class derived from mwx::stream must have this interface
+     *
+     * @param   none
+     * @return  0   No input (this stream is output only)
+     */
     int available();
+
+    /**
+     * @fn      flush
+     * @brief   Force output from the buffer, wait for it
+     * @see     class derived from mwx::stream must have this interface
+     *
+     * @param   none
+     * @return  none
+     */
     void flush();
+
+    /**
+     * @fn      read
+     * @brief   Read 1 byte from the input stream
+     * @see     class derived from mwx::stream must have this interface
+     *
+     * @param   none
+     * @return  -1  No input (this stream is output only)
+     */
     int read();
+
+    /**
+     * @fn      write
+     * @brief   Write 1 byte to the output stream
+     * @see     class derived from mwx::stream must have this interface
+     *
+     * @param   n   Data to write
+     * @return  1   Wrote length
+     */
     size_t write(int n);
+
+
+    /**
+     * @fn      vOutput
+     * @brief   (static method) Write 1 byte to the output stream
+     * @see     class derived from mwx::stream must have this interface
+     *
+     * @param   out     Character to write
+     * @param   vp      Pointer to the class instance
+     * @return  none
+     */
     static void vOutput(char out, void* vp);
 };
