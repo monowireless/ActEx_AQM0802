@@ -227,7 +227,9 @@ public:
      * @param   none
      * @return  0   No input (this stream is output only)
      */
-    int available();
+    inline int available() {
+        return 0;                   // No data to read
+    }
 
     /**
      * @fn      flush
@@ -237,7 +239,9 @@ public:
      * @param   none
      * @return  none
      */
-    void flush();
+    inline void flush() {
+        this->updateDisplayWithVVRAM();
+    }
 
     /**
      * @fn      read
@@ -247,7 +251,9 @@ public:
      * @param   none
      * @return  -1  No input (this stream is output only)
      */
-    int read();
+    inline int read() {
+        return -1;                  // No data to read
+    }
 
     /**
      * @fn      write
@@ -257,8 +263,10 @@ public:
      * @param   n   Data to write
      * @return  1   Wrote length
      */
-    size_t write(int n);
-
+    inline size_t write(int n) {
+        this->putc(n);
+        return 1;
+    }
 
     /**
      * @fn      vOutput
