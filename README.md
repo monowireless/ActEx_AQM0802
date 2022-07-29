@@ -64,11 +64,15 @@ In the `loop()`, periodically increment the count value with `Timer0` and show e
 
 `AQM0802`クラスのインスタンスをグローバル空間に宣言し、`setup()`内で`AQM0802::begin()`を呼びます。
 
-※ AQM1602を使用する際は、引数に `TYPE_AQM1602` を渡してください。
+> ※ AQM1602を使用するには、第1引数に `TYPE_AQM1602` を渡してください。
+
+> ※ コントラストを指定するには、第2引数に `0` から `63` までの数値を渡してください。何も渡さなかった場合のデフォルト値は `23` (AQM0802)、`31` (AQM1602) です。
 
 Create a global instance of the `AQM0802` class, then call `AQM0802::begin()` in the `setup()`.
 
-\* If AQM1602 is used, pass `TYPE_AQM1602` as the argument for the method.
+> \* If AQM1602 is used, pass `TYPE_AQM1602` as the 1st argument for the method.
+
+> \* To specify contrast, pass integer `0` to `63` as the 2nd argument for the method. Default value is `23` (AQM0802) or `31` (AQM1602).
 
 ### 消去 / Clearing
 

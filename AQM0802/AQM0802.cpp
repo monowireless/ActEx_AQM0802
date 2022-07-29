@@ -33,7 +33,7 @@ AQM0802::AQM0802()
     SUPER::pvOutputContext = (void*)this; // pass the mwx::strem of instance pointer (used at vOutPut())
 }
 
-void AQM0802::begin(const st7032_module_type_e type)
+void AQM0802::begin(const st7032_module_type_e type, const int8_t contrast)
 {
     mwx::pnew(*this);           // Placement new: for calling the constructor manually
     this->i2c_address = 0x3E;
@@ -58,7 +58,7 @@ void AQM0802::begin(const st7032_module_type_e type)
     this->clearVVRAM();
     Wire.begin(WIRE_CONF::WIRE_400KHZ, false);
     delay(40);                                  // Wait time > 40ms after VDD stable
-    this->initializeDisplay(type);
+    this->initializeDisplay(type, contrast);
 }
 
 void AQM0802::clear(void)
@@ -182,7 +182,7 @@ void AQM0802::putVVRAM(const char c)
     }
 }
 
-void AQM0802::initializeDisplay(const st7032_module_type_e type)
+void AQM0802::initializeDisplay(const st7032_module_type_e type, int8_t contrast)
 {
     // Function Set: 8-bit bus, 2-line, normal font, normal instruction
     this->writeDisplay(ST7032_INSTRUCTION, 0x38);
@@ -190,30 +190,27 @@ void AQM0802::initializeDisplay(const st7032_module_type_e type)
     this->writeDisplay(ST7032_INSTRUCTION, 0x39);
     // Internal OSC Freq: bias 1/5, freq 183Hz
     this->writeDisplay(ST7032_INSTRUCTION, 0x14);
-
-    switch (type) {
-    case TYPE_AQM0802: {
-        // Contrast set (low byte): C3=0, C2=1, C1=1, C0=1
-        this->writeDisplay(ST7032_INSTRUCTION, 0x77);
-        // Power/ICON ctrl / Contrast set (high byte): ICON off, booster on(if3.3V), C5=0, C4=1
-        this->writeDisplay(ST7032_INSTRUCTION, 0x55);
-        break;
+    // Contrast set
+    if (contrast < 0 || 63 < contrast) {
+        // Use preferred contrast value
+        switch (type) {
+        case TYPE_AQM0802: {
+            contrast = 23;      // Contrast set: 0b010111 / 0x17
+            break;
+        }
+        case TYPE_AQM1602: {
+            contrast = 31;      // Contrast set: 0b011111 / 0x1F
+            break;
+        }
+        default:
+            contrast = 23;      // Contrast set: 0b010111 / 0x17
+            break;
+        }
     }
-    case TYPE_AQM1602: {
-        // Contrast set (low byte): C3=1, C2=1, C1=1, C0=1
-        this->writeDisplay(ST7032_INSTRUCTION, 0x7F);
-        // Power/ICON ctrl / Contrast set (high byte): ICON off, booster on(if3.3V), C5=0, C4=1
-        this->writeDisplay(ST7032_INSTRUCTION, 0x55);
-        break;
-    }
-    default:
-        // Contrast set (low byte): C3=0, C2=1, C1=1, C0=1
-        this->writeDisplay(ST7032_INSTRUCTION, 0x77);
-        // Power/ICON ctrl / Contrast set (high byte): ICON off, booster on(if3.3V), C5=0, C4=1
-        this->writeDisplay(ST7032_INSTRUCTION, 0x55);
-        break;
-    }
-
+    // Contrast set (low byte): C3, C2, C1, C0
+    this->writeDisplay(ST7032_INSTRUCTION, 0x70 | (contrast & 0x0F));
+    // Power/ICON ctrl / Contrast set (high byte): ICON off, booster on(if3.3V), C5, C4
+    this->writeDisplay(ST7032_INSTRUCTION, 0x54 | (contrast >> 4 & 0x03));
     // Follower ctrl: follower on, Rab2=1
     this->writeDisplay(ST7032_INSTRUCTION, 0x6C);
     // Wait time > 200ms (for power stable)

@@ -97,10 +97,11 @@ public:
      * @fn      begin
      * @brief   Setup the display
      *
-     * @param   type      Module type (TYPE_AQM0802 or TYPE_AQM1602)
+     * @param   type        Module type (TYPE_AQM0802 or TYPE_AQM1602)
+     * @param   contrast    Contrast value (C5-C0 in ST7032). If not set, use preferred value for AQM0802 / AQM1602.
      * @return  none
      */
-    void begin(const st7032_module_type_e type = TYPE_AQM0802);
+    void begin(const st7032_module_type_e type = TYPE_AQM0802, const int8_t contrast = -1);
 
     /**
      * @fn      clear
@@ -185,9 +186,10 @@ private:
      * @brief   Initialize the display
      *
      * @param   type      Module type (TYPE_AQM0802 or TYPE_AQM1602)
+     * @param   contrast    Contrast value (C5-C0 in ST7032)
      * @return  none
      */
-    void initializeDisplay(const st7032_module_type_e type = TYPE_AQM0802);
+    void initializeDisplay(const st7032_module_type_e type = TYPE_AQM0802, int8_t contrast = -1);
 
     /**
      * @fn      updateDisplayWithVVRAM

@@ -56,16 +56,20 @@ void setup() {
         break;
     }
 
-    // Setup the display
+    // Setup the display (with prefered contrast: 23 (AQM0802) or 31 (AQM1602))
     display.begin(type);
+
+    // Setup the display (with optional contrast: 0~63)
+    // int8_t contrast = 25;
+    // display.begin(type, contrast);
 
     // Select printing style
     use_mwx_stream = false;
     //use_mwx_stream = true;
     if (use_mwx_stream) {
-        Serial << "ActEx_AQM0802: Using mwx::stream" << mwx::crlf;
+        Serial << "ActEx_AQM0802: Using mwx::stream" << mwx::crlf;      // Cpp-style
     } else {
-        Serial.printfmt("ActEx_AQM0802: Using printf\n");
+        Serial.printfmt("ActEx_AQM0802: Using printf\n");               // C-style
     }
 
     // Print initial messages
