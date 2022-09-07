@@ -19,7 +19,7 @@ Connect powerlines and the reset pin, then connect I2C SCL and I2C SDA to the TW
 以下の環境でActの動作を確認しました。
 
 - ソフトウェア
-  - [MWSDK](https://mono-wireless.com/jp/products/stage/index.html) 2022年7月版 (macOS Monterey)
+  - [MWSDK](https://mono-wireless.com/jp/products/stage/index.html) 2022年8月版 (macOS Monterey)
 - ハードウェア
   - 自社製品
     - [TWELITE DIP BLUE (TWE-L-DI-W)](https://mono-wireless.com/jp/products/TWE-Lite-DIP/index.html)
@@ -31,7 +31,7 @@ Connect powerlines and the reset pin, then connect I2C SCL and I2C SDA to the TW
 This Act has been tested in the following environment:
 
 - Software
-  - [MWSDK](https://mono-wireless.com/jp/products/stage/index.html) 2022 July (macOS Monterey)
+  - [MWSDK](https://mono-wireless.com/jp/products/stage/index.html) 2022 August (macOS Monterey)
 - Hardware
   - Own products
     - [TWELITE DIP BLUE (TWE-L-DI-W)](https://mono-wireless.com/jp/products/TWE-Lite-DIP/index.html)
